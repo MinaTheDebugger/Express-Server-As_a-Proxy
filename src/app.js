@@ -69,6 +69,8 @@ app.post('/schema', async function (req, res) {
   } catch (error) {
    // console.error(error)
     console.log(req.body)
+    res.send(400 ,'bad request : ' + request)
+
   }
 });
 
@@ -114,7 +116,7 @@ app.post('/event', async function (req, res) {
 
   const request = `{
     "streamName": "${streamName}",
-    "events": ${events}
+    "events": ${JSON.stringify(events)}
   }`
   const header = {
     'Content-Type': 'application/json'
@@ -132,6 +134,7 @@ app.post('/event', async function (req, res) {
 
   } catch (error) {
     console.error(error)
+    res.send(400 ,'bad request : ' + request)
   }
 });
 
@@ -139,40 +142,4 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`)
 });
 
-async function createStreamJava(streamName, schema) {  
-  try {  
-  const data = `
-  {
-  "streamName": "${streamName}",
-  "schema": ${schema}
-  }`
-  const headers = {
-  'Content-Type': 'application/json'}
-  const response = await axios.post('http://localhost:4000/createstream', data, {
-  headers: headers
-  })
-  alert("it worked " + JSON.stringify(response.body))
-  } catch (error) {
-  alert(error)
-  console.error(error)
-  }
-  }
-  
-  async function schema(queryString) {  
-    try {  
-    const data = `
-    {
-      "queryString" : ${queryString}
-    }`
-    const headers = {
-    'Content-Type': 'application/json'}
-    const response = await axios.post('http://localhost:4000/schema', data, {
-    headers: headers
-    })
-    alert("it worked " + JSON.stringify(response.body))
-    } catch (error) {
-    alert(error)
-    console.error(error)
-    }
-    }
   
