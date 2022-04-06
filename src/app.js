@@ -18,8 +18,8 @@ app.post('/createstream', async function (req, res) {
   } = req.body
 
   const request = `{
-    "streamName": ${streamName},
-    "schema": ${schema}
+    "streamName": "${streamName}",
+    "schema": ${JSON.stringify(schema)}
 }`
   const header = {
     'Content-Type': 'application/json'
@@ -36,6 +36,8 @@ app.post('/createstream', async function (req, res) {
     res.send(data)
 
   } catch (error) {
+    res.send(400 ,'bad request : ' + request)
+
     console.error(error)
   }
 });
